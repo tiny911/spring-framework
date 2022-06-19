@@ -16,14 +16,14 @@
 
 package org.springframework.context.support;
 
-import java.io.IOException;
-
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextException;
 import org.springframework.lang.Nullable;
+
+import java.io.IOException;
 
 /**
  * Base class for {@link org.springframework.context.ApplicationContext}
@@ -119,14 +119,25 @@ public abstract class AbstractRefreshableApplicationContext extends AbstractAppl
 	 */
 	@Override
 	protected final void refreshBeanFactory() throws BeansException {
+		//若是有则必须先销毁再新建
 		if (hasBeanFactory()) {
 			destroyBeans();
 			closeBeanFactory();
 		}
 		try {
+			//会涉及父子容器的概念：若是有父容器则返回父容器：比如springMVC 返回的是父容器
 			DefaultListableBeanFactory beanFactory = createBeanFactory();
+
+			//setId :在AbstractApplicationContext 类的 151行设置的
 			beanFactory.setSerializationId(getId());
+			//定制化Bean 工厂，
+			// 1。设置 允许循环依赖的标志：true
+			//2，设置允许覆盖bean 定义信息 标志：true
 			customizeBeanFactory(beanFactory);
+			//方法经过好多次的重写，每次传入的参数是不同的
+			//真正处理的逻辑是在： XmlBeanDefinitionReader.java 中处理
+
+			//XML文件的加载
 			loadBeanDefinitions(beanFactory);
 			this.beanFactory = beanFactory;
 		}
@@ -211,6 +222,7 @@ public abstract class AbstractRefreshableApplicationContext extends AbstractAppl
 	 * @see DefaultListableBeanFactory#setAllowRawInjectionDespiteWrapping
 	 * @see DefaultListableBeanFactory#setAllowEagerClassLoading
 	 */
+	//可以做为扩展
 	protected void customizeBeanFactory(DefaultListableBeanFactory beanFactory) {
 		if (this.allowBeanDefinitionOverriding != null) {
 			beanFactory.setAllowBeanDefinitionOverriding(this.allowBeanDefinitionOverriding);

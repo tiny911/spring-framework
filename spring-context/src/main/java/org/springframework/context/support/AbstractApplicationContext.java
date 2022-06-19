@@ -526,12 +526,31 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 			StartupStep contextRefresh = this.applicationStartup.start("spring.context.refresh");
 
 			// Prepare this context for refreshing.
+			/**
+			 * 容器启动的前期准备工作
+			 * 1。设置启动时间
+			 * 2，设置容器的活跃状态：true
+			 * 3。设置容易关闭状态：false
+			 * 4。初始化属性资源：为空，子类可扩张
+			 * 5。设置容器早期监听事件和监听器集合
+			 */
 			prepareRefresh();
 
 			// Tell the subclass to refresh the internal bean factory.
+			//获取bean 工厂
+			/**
+			 * 1。若是存在bean 工厂，则先销毁，然后在创建：
+			 * 2。预刷新bean工厂：若是有bean 工厂，则先销毁，关闭，然后创建。没有直接创建
+			 * 3，创建bean工厂：返回值是一个 DefaultLisableBeanFactory（创建的时候会有涉及父子容器，若是是父容器的类型为ConfigurableApplicationContext，
+			 * 则返回容器的beanFactory，否则返回父容器）
+			 * 4。设置容器的序列号IDbeanFactory.setSerializationId(getId())（：setId :在AbstractApplicationContext 类的 151行设置的）
+			 * 5。定制化beanFactory:设置 允许覆盖bean的定义信息和允许循环依赖的标志为：true
+			 * 6。loadBeanDefinitons :j加载bean的定义信息
+			 */
 			ConfigurableListableBeanFactory beanFactory = obtainFreshBeanFactory();
 
 			// Prepare the bean factory for use in this context.
+
 			prepareBeanFactory(beanFactory);
 
 			try {
@@ -1320,6 +1339,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * ConfigurableApplicationContext; else, return the parent context itself.
 	 * @see org.springframework.context.ConfigurableApplicationContext#getBeanFactory
 	 */
+	// 父子容器的概念：若是有父容器，则返回父容器
 	@Nullable
 	protected BeanFactory getInternalParentBeanFactory() {
 		return (getParent() instanceof ConfigurableApplicationContext ?
