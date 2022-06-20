@@ -527,17 +527,18 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 			// Prepare this context for refreshing.
 			/**
-			 * 容器启动的前期准备工作
+			 * 前戏：容器刷新前的准备工作
 			 * 1。设置启动时间
 			 * 2，设置容器的活跃状态：true
 			 * 3。设置容易关闭状态：false
-			 * 4。初始化属性资源：为空，子类可扩张
-			 * 5。设置容器早期监听事件和监听器集合
+			 * 4。获取Envrionment对象，并加载当前的系统属性到Envrionment对象中
+			 * 5。准备监听器和事件的集合，默认为空（Springboot不为空，有14个）
 			 */
 			prepareRefresh();
 
 			// Tell the subclass to refresh the internal bean factory.
-			//获取bean 工厂
+			//创建容器对象：DefaultLisableBeanFactory
+			//加载XML配置文件的属性到到当前工厂中，最重要就是BeanDefintion
 			/**
 			 * 1。若是存在bean 工厂，则先销毁，然后在创建：
 			 * 2。预刷新bean工厂：若是有bean 工厂，则先销毁，关闭，然后创建。没有直接创建
@@ -550,7 +551,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 			ConfigurableListableBeanFactory beanFactory = obtainFreshBeanFactory();
 
 			// Prepare the bean factory for use in this context.
-
+			//beanFactory 准备工作：各种属性的填充
 			prepareBeanFactory(beanFactory);
 
 			try {

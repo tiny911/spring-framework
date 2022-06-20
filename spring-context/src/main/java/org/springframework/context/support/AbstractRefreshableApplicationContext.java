@@ -137,7 +137,7 @@ public abstract class AbstractRefreshableApplicationContext extends AbstractAppl
 			//方法经过好多次的重写，每次传入的参数是不同的
 			//真正处理的逻辑是在： XmlBeanDefinitionReader.java 中处理
 
-			//XML文件的加载
+			//bead 定义信息加载
 			loadBeanDefinitions(beanFactory);
 			this.beanFactory = beanFactory;
 		}
