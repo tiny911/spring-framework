@@ -125,19 +125,21 @@ public abstract class AbstractRefreshableApplicationContext extends AbstractAppl
 			closeBeanFactory();
 		}
 		try {
+
 			//会涉及父子容器的概念：若是有父容器则返回父容器：比如springMVC 返回的是父容器
+			//创建bean 工厂，返回的是一个 DefaultLsiableBeanFactory 对象
 			DefaultListableBeanFactory beanFactory = createBeanFactory();
 
 			//setId :在AbstractApplicationContext 类的 151行设置的
 			beanFactory.setSerializationId(getId());
 			//定制化Bean 工厂，
-			// 1。设置 允许循环依赖的标志：true
-			//2，设置允许覆盖bean 定义信息 标志：true
+			// 1。设置 允许循环依赖：：true
+			//2，设置允许覆盖同名称的不同定义的对象：：true
 			customizeBeanFactory(beanFactory);
+
 			//方法经过好多次的重写，每次传入的参数是不同的
 			//真正处理的逻辑是在： XmlBeanDefinitionReader.java 中处理
-
-			//bead 定义信息加载
+			//加载Bean的定义信息：初始化documentReader，并进行xml 文件的解析和读取
 			loadBeanDefinitions(beanFactory);
 			this.beanFactory = beanFactory;
 		}

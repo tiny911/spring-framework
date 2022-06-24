@@ -412,9 +412,12 @@ public class BeanDefinitionParserDelegate {
 	 */
 	@Nullable
 	public BeanDefinitionHolder parseBeanDefinitionElement(Element ele, @Nullable BeanDefinition containingBean) {
+		//解析到Id
 		String id = ele.getAttribute(ID_ATTRIBUTE);
+		//解析到name
 		String nameAttr = ele.getAttribute(NAME_ATTRIBUTE);
 
+		//别名处理，别名可以有多个
 		List<String> aliases = new ArrayList<>();
 		if (StringUtils.hasLength(nameAttr)) {
 			String[] nameArr = StringUtils.tokenizeToStringArray(nameAttr, MULTI_VALUE_ATTRIBUTE_DELIMITERS);
@@ -431,6 +434,7 @@ public class BeanDefinitionParserDelegate {
 		}
 
 		if (containingBean == null) {
+			//bean 唯一性校验：
 			checkNameUniqueness(beanName, aliases, ele);
 		}
 
@@ -503,24 +507,35 @@ public class BeanDefinitionParserDelegate {
 		this.parseState.push(new BeanEntry(beanName));
 
 		String className = null;
+		//解析class 属性，解析完class就可以通过反射生成对象了，
 		if (ele.hasAttribute(CLASS_ATTRIBUTE)) {
 			className = ele.getAttribute(CLASS_ATTRIBUTE).trim();
 		}
 		String parent = null;
+		//解析parent熟悉
 		if (ele.hasAttribute(PARENT_ATTRIBUTE)) {
 			parent = ele.getAttribute(PARENT_ATTRIBUTE);
 		}
 
 		try {
+			//创建装栽bean信息的AbstractBeanDefinition 对象，其实是GenericBeanDefiniton 对象
 			AbstractBeanDefinition bd = createBeanDefinition(className, parent);
 
+			//解析bean 标签的各种其他属性
 			parseBeanDefinitionAttributes(ele, beanName, containingBean, bd);
+			//设置description 信息
 			bd.setDescription(DomUtils.getChildElementValueByTagName(ele, DESCRIPTION_ELEMENT));
 
+			//解析元数据
 			parseMetaElements(ele, bd);
+
+			//解析look-up属性
 			parseLookupOverrideSubElements(ele, bd.getMethodOverrides());
+
+			//解析place-method 属性
 			parseReplacedMethodSubElements(ele, bd.getMethodOverrides());
 
+			//解析构造器
 			parseConstructorArgElements(ele, bd);
 			parsePropertyElements(ele, bd);
 			parseQualifierElements(ele, bd);

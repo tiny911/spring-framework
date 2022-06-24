@@ -148,6 +148,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	protected final Log logger = LogFactory.getLog(getClass());
 
 	/** Unique id for this context, if any. */
+	//设置容器全局唯一ID
 	private String id = ObjectUtils.identityToString(this);
 
 	/** Display name. */
@@ -454,6 +455,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * @see org.springframework.core.io.support.PathMatchingResourcePatternResolver
 	 */
 	protected ResourcePatternResolver getResourcePatternResolver() {
+		//创建一个资源模式解析器（其实就是用来解析xml 配置文件）
 		return new PathMatchingResourcePatternResolver(this);
 	}
 
@@ -1397,6 +1399,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 	@Override
 	public Resource[] getResources(String locationPattern) throws IOException {
+		//创建资源模式处理器
 		return this.resourcePatternResolver.getResources(locationPattern);
 	}
 

@@ -16,14 +16,13 @@
 
 package org.springframework.beans.factory.xml;
 
-import java.io.IOException;
-
+import org.springframework.lang.Nullable;
+import org.springframework.util.Assert;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import org.springframework.lang.Nullable;
-import org.springframework.util.Assert;
+import java.io.IOException;
 
 /**
  * {@link EntityResolver} implementation that delegates to a {@link BeansDtdResolver}
@@ -58,8 +57,15 @@ public class DelegatingEntityResolver implements EntityResolver {
 	 * @param classLoader the ClassLoader to use for loading
 	 * (can be {@code null}) to use the default ClassLoader)
 	 */
+	//dtd:data type definition
+	//xsd:xml schema definition
+
 	public DelegatingEntityResolver(@Nullable ClassLoader classLoader) {
 		this.dtdResolver = new BeansDtdResolver();
+		//当完成这行代码的调用之后，会有一件很神奇的事情发生，那就是SchemaResolver 对象的schemaResolver的schemaMappings 属性被赋值了，但是遍历完代码找不到显示的调用
+		//这是因为在debug的时候，因为在程序运行期间显示类的所有信息，所有idea回帮助我们调用 PluggableSchemaResolver.toString 方法，只是我们没有感知到而已
+		//PluggableSchemaResolver.toString ->完成对对象的schemaResolver.schemaMappings属性的赋值动作
+		//schemaMappingsLocation:就是  系统当前存放的 "META-INF/spring.schemas"
 		this.schemaResolver = new PluggableSchemaResolver(classLoader);
 	}
 
