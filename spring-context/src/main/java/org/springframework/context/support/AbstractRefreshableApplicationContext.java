@@ -139,7 +139,8 @@ public abstract class AbstractRefreshableApplicationContext extends AbstractAppl
 
 			//方法经过好多次的重写，每次传入的参数是不同的
 			//真正处理的逻辑是在： XmlBeanDefinitionReader.java 中处理
-			//加载Bean的定义信息：初始化documentReader，并进行xml 文件的解析和读取
+			//加载Bean的定义信息：初始化documentReader，并进行xml 文件的解析和读取,
+			// 若是在配置文件中定义了占位符，那么在此处的时候仍然是原始值，未做任何的处理占位符的替换处理：
 			loadBeanDefinitions(beanFactory);
 			this.beanFactory = beanFactory;
 		}

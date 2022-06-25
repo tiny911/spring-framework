@@ -8,4 +8,17 @@
 		<property name="age"  value="32"></property>
 	</bean>
 
+	<bean id="studentFactoryBean" class="com.domain.StudentFactoryBean">
+
+	</bean>
+
+	<bean id="student" class="com.domain.Student">
+		<property name="name" value="lisi">
+
+		</property>
+
+		<property name="age" value="99"></property>
+	</bean>
+
+
 </beans>

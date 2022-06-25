@@ -558,17 +558,21 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 			try {
 				// Allows post-processing of the bean factory in context subclasses.
+				//子类覆盖方法做额外的 处理，但是此处我们一般不做任何的扩展，但是可以查看web项目，有具体的实现
 				postProcessBeanFactory(beanFactory);
 
 				StartupStep beanPostProcess = this.applicationStartup.start("spring.context.beans.post-process");
 				// Invoke factory processors registered as beans in the context.
+				//调用beanFactory的各种处理器方法
 				invokeBeanFactoryPostProcessors(beanFactory);
 
 				// Register bean processors that intercept bean creation.
+				//注册Bean 的处理器，这里只是注册功能，真正调用的是  getBean()
 				registerBeanPostProcessors(beanFactory);
 				beanPostProcess.end();
 
 				// Initialize message source for this context.
+				//为上下文初始化message源，即不同语言的消息体，国际化处理，在springmvc的国际化逻辑很重要
 				initMessageSource();
 
 				// Initialize event multicaster for this context.
