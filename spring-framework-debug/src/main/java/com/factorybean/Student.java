@@ -1,4 +1,4 @@
-package com.domain;
+package com.factorybean;
 
 public class Student {
 	private String name;

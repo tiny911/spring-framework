@@ -1,16 +1,16 @@
 package com;
 
 import com.domain.Person;
-import com.domain.Student;
-import com.domain.StudentFactoryBean;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import com.factorybean.StudentFactoryBean;
 
 public class Main {
 
 	public static void main(String[] args) {
 
 		//AnnotationConfigApplicationContext acc = new AnnotationConfigApplicationContext(AppConfig.class);
-		ClassPathXmlApplicationContext cac = new ClassPathXmlApplicationContext("person.xml");
+		//ClassPathXmlApplicationContext cac = new ClassPathXmlApplicationContext("application.xml");
+
+		MyClassPathXmlApplicationContext cac = new MyClassPathXmlApplicationContext("application.xml");
 
 		Person person = cac.getBean(Person.class);
 

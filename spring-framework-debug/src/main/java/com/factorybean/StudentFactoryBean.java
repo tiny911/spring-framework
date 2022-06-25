@@ -1,4 +1,4 @@
-package com.domain;
+package com.factorybean;
 
 import org.springframework.beans.factory.FactoryBean;
 
