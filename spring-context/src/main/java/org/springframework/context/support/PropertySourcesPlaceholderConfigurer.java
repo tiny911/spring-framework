@@ -16,26 +16,18 @@
 
 package org.springframework.context.support;
 
-import java.io.IOException;
-import java.util.Properties;
-
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanInitializationException;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.config.PlaceholderConfigurerSupport;
 import org.springframework.context.EnvironmentAware;
-import org.springframework.core.env.ConfigurableEnvironment;
-import org.springframework.core.env.ConfigurablePropertyResolver;
-import org.springframework.core.env.Environment;
-import org.springframework.core.env.MutablePropertySources;
-import org.springframework.core.env.PropertiesPropertySource;
-import org.springframework.core.env.PropertyResolver;
-import org.springframework.core.env.PropertySource;
-import org.springframework.core.env.PropertySources;
-import org.springframework.core.env.PropertySourcesPropertyResolver;
+import org.springframework.core.env.*;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.util.StringValueResolver;
+
+import java.io.IOException;
+import java.util.Properties;
 
 /**
  * Specialization of {@link PlaceholderConfigurerSupport} that resolves ${...} placeholders
@@ -138,7 +130,8 @@ public class PropertySourcesPlaceholderConfigurer extends PlaceholderConfigurerS
 				// likely not configured with ignoreUnresolvablePlaceholders set to true.
 				// See https://github.com/spring-projects/spring-framework/issues/27947
 				if (this.ignoreUnresolvablePlaceholders &&
-						(this.environment instanceof ConfigurableEnvironment configurableEnvironment)) {
+						(this.environment instanceof ConfigurableEnvironment )) {
+					ConfigurableEnvironment configurableEnvironment = (ConfigurableEnvironment) this.environment;
 					PropertySourcesPropertyResolver resolver =
 							new PropertySourcesPropertyResolver(configurableEnvironment.getPropertySources());
 					resolver.setIgnoreUnresolvableNestedPlaceholders(true);

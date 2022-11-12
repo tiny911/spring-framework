@@ -49,7 +49,7 @@ import org.springframework.core.metrics.StartupStep;
 import org.springframework.lang.Nullable;
 
 /**
- * Delegate for AbstractApplicationContext's post-processor handling.
+ * Delegate(委托) for AbstractApplicationContext's post-processor handling.
  *
  * @author Juergen Hoeller
  * @author Sam Brannen

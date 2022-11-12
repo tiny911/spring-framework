@@ -21,6 +21,7 @@ import org.springframework.core.ResolvableType;
 import org.springframework.lang.Nullable;
 
 /**
+ * 访问container的根接口
  * The root interface for accessing a Spring bean container.
  *
  * <p>This is the basic client view of a bean container;
@@ -63,6 +64,13 @@ import org.springframework.lang.Nullable;
  * {@link HierarchicalBeanFactory}. If a bean is not found in this factory instance,
  * the immediate parent factory will be asked. Beans in this factory instance
  * are supposed to override beans of the same name in any parent factory.
+ *
+ * Bean工厂的实现应该尽可能多的支持一个标准的Bean生命周期的，初始化方法的集合和他们标准的顺序如下：
+ * 1.执行各种Aware方法；
+ * 2.执行 postProcessBeforeInitialization 方法
+ * 3.实例化Bean（属性填充）：afterPropertiesSet
+ * 4.执行 Bean 定制化的init 方法
+ * 5.执行postProcessAfterInitialization
  *
  * <p>Bean factory implementations should support the standard bean lifecycle interfaces
  * as far as possible. The full set of initialization methods and their standard order is:

@@ -532,7 +532,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 			 * 前戏：容器刷新前的准备工作
 			 * 1。设置启动时间
 			 * 2，设置容器的活跃状态：true
-			 * 3。设置容易关闭状态：false
+			 * 3。设置容器关闭状态：false
 			 * 4。获取Envrionment对象，并加载当前的系统属性到Envrionment对象中
 			 * 5。准备监听器和事件的集合，默认为空（Springboot不为空，有14个）
 			 */
@@ -542,13 +542,15 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 			//创建容器对象：DefaultLisableBeanFactory
 			//加载XML配置文件的属性到到当前工厂中，最重要就是BeanDefintion
 			/**
+			 * 创建容器对象：DefaultListableBeanFactory
+			 * 加载XML配置的属性值到当前的Bean工厂，最重要就是BeanDefinitoion
 			 * 1。若是存在bean 工厂，则先销毁，然后在创建：
 			 * 2。预刷新bean工厂：若是有bean 工厂，则先销毁，关闭，然后创建。没有直接创建
 			 * 3，创建bean工厂：返回值是一个 DefaultLisableBeanFactory（创建的时候会有涉及父子容器，若是是父容器的类型为ConfigurableApplicationContext，
 			 * 则返回容器的beanFactory，否则返回父容器）
 			 * 4。设置容器的序列号IDbeanFactory.setSerializationId(getId())（：setId :在AbstractApplicationContext 类的 151行设置的）
 			 * 5。定制化beanFactory:设置 允许覆盖bean的定义信息和允许循环依赖的标志为：true
-			 * 6。loadBeanDefinitons :j加载bean的定义信息
+			 * 6。loadBeanDefinitons :加载bean的定义信息
 			 */
 			ConfigurableListableBeanFactory beanFactory = obtainFreshBeanFactory();
 
@@ -579,15 +581,19 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 				initApplicationEventMulticaster();
 
 				// Initialize other special beans in specific context subclasses.
+				//留给子类初始化其他的bean
 				onRefresh();
 
 				// Check for listener beans and register them.
+				//在所有注册的bean中查找listener bean，并注册到消息广播中
 				registerListeners();
 
 				// Instantiate all remaining (non-lazy-init) singletons.
+				//初始化剩下的单实例（非懒加载的）
 				finishBeanFactoryInitialization(beanFactory);
 
 				// Last step: publish corresponding event.
+				//完成刷新过程，通知生命周期处理器lifecycleProcessor刷新过程，同时发出ContextRefreshEvent通知别人
 				finishRefresh();
 			}
 

@@ -127,7 +127,7 @@ public abstract class AbstractRefreshableApplicationContext extends AbstractAppl
 		try {
 
 			//会涉及父子容器的概念：若是有父容器则返回父容器：比如springMVC 返回的是父容器
-			//创建bean 工厂，返回的是一个 DefaultLsiableBeanFactory 对象
+			//创建bean 工厂，返回的是一个 直接new 的 DefaultLsiableBeanFactory 对象
 			DefaultListableBeanFactory beanFactory = createBeanFactory();
 
 			//setId :在AbstractApplicationContext 类的 151行设置的
@@ -141,6 +141,7 @@ public abstract class AbstractRefreshableApplicationContext extends AbstractAppl
 			//真正处理的逻辑是在： XmlBeanDefinitionReader.java 中处理
 			//加载Bean的定义信息：初始化documentReader，并进行xml 文件的解析和读取,
 			// 若是在配置文件中定义了占位符，那么在此处的时候仍然是原始值，未做任何的处理占位符的替换处理：
+			//加载完Bean定义信息之后，beanFactory.beanDefinitionMap 和beanDefinitionNames开始有值
 			loadBeanDefinitions(beanFactory);
 			this.beanFactory = beanFactory;
 		}
@@ -227,6 +228,7 @@ public abstract class AbstractRefreshableApplicationContext extends AbstractAppl
 	 */
 	//可以做为扩展
 	protected void customizeBeanFactory(DefaultListableBeanFactory beanFactory) {
+
 		if (this.allowBeanDefinitionOverriding != null) {
 			beanFactory.setAllowBeanDefinitionOverriding(this.allowBeanDefinitionOverriding);
 		}

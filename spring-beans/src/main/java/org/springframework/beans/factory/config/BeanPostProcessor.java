@@ -20,6 +20,11 @@ import org.springframework.beans.BeansException;
 import org.springframework.lang.Nullable;
 
 /**
+ * Bean增强器
+ * Bean对应的实例化包括：1.属性填充；2.执行Bean的init方法；3.完整的Bean对象
+ * Bean增强器的的before在1和2的中间执行；after在2和3之间执行
+ * AOP的实现基础：AbstractAutoProxyCreator.createProxy 方法创建了AOP代理
+ *
  * Factory hook that allows for custom modification of new bean instances &mdash;
  * for example, checking for marker interfaces or wrapping beans with proxies.
  *
