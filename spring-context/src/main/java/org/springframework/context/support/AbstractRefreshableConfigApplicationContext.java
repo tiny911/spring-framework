@@ -71,15 +71,16 @@ public abstract class AbstractRefreshableConfigApplicationContext extends Abstra
 	}
 
 	/**
+	 *设置应用程序上下文的配置路径
 	 * Set the config locations for this application context.
-	 * <p>If not set, the implementation may use a default as appropriate.
+	 * <p>If not set, the implementation may use a default as appropriate（合适的）.
 	 */
 	public void setConfigLocations(@Nullable String... locations) {
 		if (locations != null) {
 			Assert.noNullElements(locations, "Config locations must not be null");
 			this.configLocations = new String[locations.length];
 			for (int i = 0; i < locations.length; i++) {
-			//解析给定路径
+			//解析给定路径--如是XML文件名含有 ${}占位符，则在此处处理
 				this.configLocations[i] = resolvePath(locations[i]).trim();
 			}
 		}

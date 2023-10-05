@@ -148,7 +148,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	protected final Log logger = LogFactory.getLog(getClass());
 
 	/** Unique id for this context, if any. */
-	//设置容器全局唯一ID
+	//设置容器全局唯一ID --在创建完bean工厂之后，用来给容器设置的唯一标识
 	private String id = ObjectUtils.identityToString(this);
 
 	/** Display name. */
@@ -175,6 +175,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	private final AtomicBoolean closed = new AtomicBoolean();
 
 	/** Synchronization monitor for the "refresh" and "destroy". */
+	// refresh and destory 的同步监视器（刷新和销毁都是一个不可中断的过程，必须加锁）
 	private final Object startupShutdownMonitor = new Object();
 
 	/** Reference to the JVM shutdown hook, if registered. */
@@ -215,6 +216,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * Create a new AbstractApplicationContext with no parent.
 	 */
 	public AbstractApplicationContext() {
+		//创建资源（XML文件，配置文件等）模式解析器）
 		this.resourcePatternResolver = getResourcePatternResolver();
 	}
 
@@ -555,17 +557,18 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 			ConfigurableListableBeanFactory beanFactory = obtainFreshBeanFactory();
 
 			// Prepare the bean factory for use in this context.
-			//beanFactory 准备工作：各种属性的填充
+			//beanFactory 初始化工作：属性的填充
 			prepareBeanFactory(beanFactory);
 
 			try {
 				// Allows post-processing of the bean factory in context subclasses.
-				//子类覆盖方法做额外的 处理，但是此处我们一般不做任何的扩展，但是可以查看web项目，有具体的实现
+				//子类覆盖方法做额外的处理，但是此处我们一般不做任何的扩展，但是可以查看web项目，有具体的实现
 				postProcessBeanFactory(beanFactory);
 
 				StartupStep beanPostProcess = this.applicationStartup.start("spring.context.beans.post-process");
 				// Invoke factory processors registered as beans in the context.
-				//调用beanFactory的各种处理器方法
+				//调用注册在中容器中的 BFPP Bean
+				// 调用beanFactory的各种处理器方法
 				invokeBeanFactoryPostProcessors(beanFactory);
 
 				// Register bean processors that intercept bean creation.
@@ -578,6 +581,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 				initMessageSource();
 
 				// Initialize event multicaster for this context.
+				//初始化当前Bean工厂的多播器（广播器））
 				initApplicationEventMulticaster();
 
 				// Initialize other special beans in specific context subclasses.
@@ -697,6 +701,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		beanFactory.addPropertyEditorRegistrar(new ResourceEditorRegistrar(this, getEnvironment()));
 
 		// Configure the bean factory with context callbacks.
+		//忽略这些接口的实现类，在Bean对象实例化和属性填充后，会统一处理aware接口：invokeAwareMethod 方法中处理
 		beanFactory.addBeanPostProcessor(new ApplicationContextAwareProcessor(this));
 		beanFactory.ignoreDependencyInterface(EnvironmentAware.class);
 		beanFactory.ignoreDependencyInterface(EmbeddedValueResolverAware.class);
@@ -749,6 +754,9 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	}
 
 	/**
+	 * 所有注册了BFPP的Bean 实例化和调用
+	 * 按给定的顺序执行
+	 * 单里对象在实例化之前必须调用）
 	 * Instantiate and invoke all registered BeanFactoryPostProcessor beans,
 	 * respecting explicit order if given.
 	 * <p>Must be called before singleton instantiation.
@@ -926,6 +934,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		beanFactory.freezeConfiguration();
 
 		// Instantiate all remaining (non-lazy-init) singletons.
+		//实例化所有非懒加载的单例bean
 		beanFactory.preInstantiateSingletons();
 	}
 

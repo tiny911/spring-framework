@@ -1,6 +1,10 @@
 package com.circle;
 
 public class A {
+	public A(){}
+	public A(B b){
+		this.b =b;
+	}
 	private B b;
 
 	public B getB() {

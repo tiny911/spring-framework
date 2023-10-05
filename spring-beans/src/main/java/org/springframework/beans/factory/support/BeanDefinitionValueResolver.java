@@ -132,6 +132,9 @@ public class BeanDefinitionValueResolver {
 		// We must check each value to see whether it requires a runtime reference
 		// to another bean to be resolved.
 		if (value instanceof RuntimeBeanReference ref) {
+			//解析出ref(RuntimeBeanReference)封装的bean元信息的bean对象
+			//解析出ref(RuntimebeanReference)封装的Bean元信息的Bean对象，
+			//A对象的b属性对应的B 对象
 			return resolveReference(argName, ref);
 		}
 		else if (value instanceof RuntimeBeanNameReference ref) {
@@ -360,7 +363,10 @@ public class BeanDefinitionValueResolver {
 					resolvedName = namedBean.getBeanName();
 				}
 				else {
+					//resolvedName =  erf(RuntimebeanReference)的bean name
 					resolvedName = String.valueOf(doEvaluate(ref.getBeanName()));
+					//通过beanName重新通过getBean 获取 bean 对象，
+					//初始化A对象的b属性的时候，在这儿开始获取B 对象
 					bean = this.beanFactory.getBean(resolvedName);
 				}
 				this.beanFactory.registerDependentBean(resolvedName, this.beanName);

@@ -1,5 +1,6 @@
 package com;
 
+import com.circle.A;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class Main {
@@ -11,12 +12,17 @@ public class Main {
 
 		/*User user =  acc.getBean(User.class);
 		System.out.println(user.getName()+ " --" + user.getAge());*/
-		ClassPathXmlApplicationContext cac = new ClassPathXmlApplicationContext("application.xml");
+		ClassPathXmlApplicationContext cac = new ClassPathXmlApplicationContext("circle.xml");
+		A a = cac.getBean(A.class);
+		System.out.println(a.getB());
 
 		//MyClassPathXmlApplicationContext cac = new MyClassPathXmlApplicationContext("application.xml");
 
 		System.out.println("******开始输出Environment属性啦*******");
 		System.out.println(cac.getEnvironment().getSystemProperties().get("user.name"));
+/*
+		User user = cac.getBean(User.class);
+		System.out.println(user.getName());*/
 		//Person person = cac.getBean(Person.class);
 
 		/*Object student = cac.getBean("studentFactoryBean");
