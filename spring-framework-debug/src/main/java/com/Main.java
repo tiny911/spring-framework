@@ -21,7 +21,7 @@ public class Main {
 		System.out.println("******开始输出Environment属性啦*******");
 		System.out.println(cac.getEnvironment().getSystemProperties().get("user.name"));
 /*
-		User user = cac.getBean(User.class);
+		User user1 = cac.getBean(User.class);
 		System.out.println(user.getName());*/
 		//Person person = cac.getBean(Person.class);
 
