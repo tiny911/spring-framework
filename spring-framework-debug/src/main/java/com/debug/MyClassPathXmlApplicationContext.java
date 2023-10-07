@@ -1,4 +1,4 @@
-package com;
+package com.debug;
 
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;

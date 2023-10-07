@@ -1,4 +1,4 @@
-package com.domain;
+package com.debug.domain;
 
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;

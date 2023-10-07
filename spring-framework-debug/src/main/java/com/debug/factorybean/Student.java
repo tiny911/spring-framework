@@ -1,4 +1,4 @@
-package com.factorybean;
+package com.debug.factorybean;
 
 public class Student {
 	private String name;

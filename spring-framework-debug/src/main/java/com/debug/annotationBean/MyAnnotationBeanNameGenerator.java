@@ -1,4 +1,4 @@
-package com.annotationBean;
+package com.debug.annotationBean;
 
 public class MyAnnotationBeanNameGenerator  {
 

@@ -1,4 +1,4 @@
-package com.circle;
+package com.debug.circle;
 
 public class B {
 	public B(){}

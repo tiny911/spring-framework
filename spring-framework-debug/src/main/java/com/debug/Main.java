@@ -1,6 +1,6 @@
-package com;
+package com.debug;
 
-import com.circle.A;
+import com.debug.circle.A;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class Main {

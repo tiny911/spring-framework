@@ -4,7 +4,7 @@
 	   xsi:schemaLocation="http://www.springframework.org/schema/beans
     http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
 
-	<bean id="user" class="com.domain.User">
+	<bean id="user" class="com.debug.domain.User">
 	</bean>
 
 </beans>

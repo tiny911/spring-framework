@@ -1,4 +1,4 @@
-package com.factorybean;
+package com.debug.factorybean;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;

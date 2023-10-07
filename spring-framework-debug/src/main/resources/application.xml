@@ -3,12 +3,12 @@
 	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	   xsi:schemaLocation="http://www.springframework.org/schema/beans
     http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
-	<bean id="person" class="com.domain.Person">
+	<bean id="person" class="com.debug.domain.Person">
 		<property name="name" value="zhaoxl"></property>
 		<property name="age"  value="32"></property>
 	</bean>
 
-	<bean id="studentFactoryBean" class="com.factorybean.StudentFactoryBean">
+	<bean id="studentFactoryBean" class="com.debug.factorybean.StudentFactoryBean">
 
 	</bean>
 <!--
@@ -20,11 +20,11 @@
 		<property name="age" value="99"></property>
 	</bean>-->
 
-	<bean id="a" class="com.circle.A">
+	<bean id="a" class="com.debug.circle.A">
 		<property name="b" ref="b"></property>
 
 	</bean>
-	<bean id="b" class ="com.circle.B">
+	<bean id="b" class ="com.debug.circle.B">
 		<property name="a" ref="a"></property>
 	</bean>
 
